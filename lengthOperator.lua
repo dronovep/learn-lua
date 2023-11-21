@@ -66,3 +66,4 @@ marr[34] = 'Abba'
 marr[35] = 'Metallica'
 marr[36] = 'Iron Maiden'
 print(#marr)                -- выведет 0
+
