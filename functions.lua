@@ -106,6 +106,30 @@
     print(sum)      -- выведет 60
     print(mul)      -- выведет nil
 
+-- Функции с переменным числом аргументов
+-- казалось бы, Lua и так умеет обрабатывать переменное число аргументов, отбрасывая лишние и присваивая nil недостающим
+-- но явное указание переменности аргументов позволяет работать с аргументами, как с таблицей
+    function multiSum(...)
+        local sum = 0
+        for index, arg in ipairs{...} do
+            if type(arg) == 'number' then sum = sum + arg end
+        end
+
+        return sum
+    end
+
+    print(multiSum(3, 2, 1, 'text', 6, 7)) -- выведет 19
+
+    function printVarargs(...)
+        print(type(...))
+        print(...)
+    end
+
+    printVarargs(3, 2, 1, 6 , 7)
+    printVarargs('Vaka', 'Gashira', 'Wipeout')
+    printVarargs('Vaka', 2, 'Wipeout')
+    printVarargs(1, 'Gashira', 3)
+
 -- объектно-ориентированный вызов функции
 -- o:foo(x)  равносильно o.foo(o, x)
 
