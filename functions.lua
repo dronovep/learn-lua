@@ -130,6 +130,54 @@
     printVarargs('Vaka', 2, 'Wipeout')
     printVarargs(1, 'Gashira', 3)
 
+    -- само многоточие, в сущности тоже самое, что и несколько значений, через запятую
+    -- можно аналогично применить в выражении
+    function passVaragsToGlobals(...)
+        a, b, c, d, e = ...
+    end
+    passVaragsToGlobals(6, 7, 8)
+    print(a)        -- выведет 6
+    print(b)        -- выведет 7
+    print(c)        -- выведет 8
+    print(d)        -- выведет nil
+    print(e)        -- выведет nil
+
+    -- само многоточие в функции необязательно заменяет весь список аргументов
+    -- многоточие является списком "дополнительных" аргументов, а аргументы функции могут состоять, как и из основных, так и из дополнительных
+    function printBrandModelAndRest(brand, model, ...)
+        print('brand = ' .. brand)
+        print('model = ' .. model)
+        print(...)
+    end
+
+    printBrandModelAndRest('Chevrolet', 'Tahoe', 'V8', '426hp')
+    --[[ выведет
+    brand = Chevrolet
+    model = Tahoe
+    V8	426hp
+    ]]
+
+-- есть способ передавать в функцию аргументы по именам, а не позиционно
+-- это удобно, когда у функции много аргументов и трубно запомнить их позиции
+-- в других языках это выглядело бы так printNamedArgs(brand='Porsche', model='Cayenne')
+-- В Lua это решается икусственно засчет передачи всего одного аргумента-таблицы, которая в свою очередь содержит именованые поля
+function printNamedArgs(args)
+    for argName, argValue in pairs(args) do
+        print(argName .. ' = ' .. argValue)
+    end
+end
+
+-- первое, что приходит на ум, это можно вызвать как printNamedArgs({brand='Porsche', model='Cayenne'}) - и это работает
+-- мда, вызов обзавелся дополнительными скобками, да и внутри функции работаем по сути не как с несколькими аргументами,
+-- а как с одним аргументом-таблицей
+
+-- но Lua позволяет убирать круглые скобки при вызове функции с единственным аргументом-таблицей
+printNamedArgs{brand='Porsche', model='Cayenne'}
+--[[ выведет
+brand = Porsche
+model = Cayenne
+]]
+
 -- объектно-ориентированный вызов функции
 -- o:foo(x)  равносильно o.foo(o, x)
 
